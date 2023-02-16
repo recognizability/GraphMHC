@@ -1,1 +1,1 @@
-# graphmhc
+# GraphMHC
