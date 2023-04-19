@@ -2,6 +2,7 @@
 Neoantigen prediction model applying the graph neural network to molecular structure from amino acid sequences of MHC proteins and peptides
 
 ## Prerequisites
+* python=3.9
 * pandas=1.4.4
 * numpy=1.23.2
 * rdkit=2022.03.2
