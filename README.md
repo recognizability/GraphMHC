@@ -7,6 +7,7 @@
 * torch_geometric=2.1.0
 * sklearn=1.1.2
 
+## Running
 ```
 python graphmhc.py
 ```
