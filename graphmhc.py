@@ -47,7 +47,7 @@ class MoleculeDataset(Dataset): #Inherited from Dataset
                 '.'.join( #. is non-bond
                     Chem.MolToSmiles(
                         Chem.MolFromSequence(sequences[sequence])
-                    ) for sequence in ['mhc_sequence', 'sequence']
+                    ) for sequence in ['mhc_sequence', 'sequence'] #Corresponds to columns of MHC sequence and peptide sequence, respectively
                 )
             )
             mol = Chem.AddHs(mol)
