@@ -362,7 +362,7 @@ hyperparameters = {
 model = GraphMHC(hyperparameters=hyperparameters)
 model = model.to(device)
 
-trainset_raw = pd.read_csv(args.root + 'raw' + args.train)
+trainset_raw = pd.read_csv(args.root + '/raw/' + args.train)
 pos_weight = (trainset_raw[args.binding]==0).sum()/trainset_raw[args.binding].sum()
 pos_weight = torch.tensor([pos_weight], dtype=torch.float).to(device)
 
