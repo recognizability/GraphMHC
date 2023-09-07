@@ -18,7 +18,7 @@ wget https://downloads.iedb.org/tools/mhci/3.1.2/IEDB_MHC_I-3.1.2.tar.gz
 tar xvzf IEDB_MHC_I-3.1.2.tar.gz
 ```
 ```
-python preprocessing.py
+python preprocessing_i.py
 ```
 ```
 python graphmhc.py
@@ -30,4 +30,7 @@ wget http://tools.iedb.org/static/download/classII_binding_data_Nov_16_2009.tar.
 tar xvzf classII_binding_data_Nov_16_2009.tar.gz
 wget https://downloads.iedb.org/tools/mhcii/3.1.6/IEDB_MHC_II-3.1.6.tar.gz
 tar xvzf IEDB_MHC_II-3.1.6.tar.gz
+```
+```
+python preprocessing_ii.py
 ```
