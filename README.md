@@ -1,5 +1,5 @@
 # GraphMHC
-Neoantigen prediction model applying the graph neural network to molecular structure from amino acid sequences of MHC proteins and peptides
+GraphMHC is a neoantigen prediction model that applyies graph neural networks to the molecular structure from amino acid sequences of MHC proteins and peptides. This model utilizes the MHC class I and MHC class II datasets from IEDB, and can also be used for other datasets on binding between amino acid sequences.
 
 ## Requirements
 * python=3.9
