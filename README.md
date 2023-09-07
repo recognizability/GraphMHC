@@ -25,4 +25,5 @@ python graphmhc.py
 ## IEDB II
 ```
 wget http://tools.iedb.org/static/download/classII_binding_data_Nov_16_2009_prediction_scores.tar.gz
+tar xvzf classII_binding_data_Nov_16_2009_prediction_scores.tar.gz
 ```
