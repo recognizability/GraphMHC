@@ -14,6 +14,8 @@ Neoantigen prediction model applying the graph neural network to molecular struc
 ```
 wget http://tools.iedb.org/static/main/binding_data_2013.zip
 unzip binding_data_2013.zip
+```
+```
 python preprocessing.py
 ```
 ```
