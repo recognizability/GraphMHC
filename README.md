@@ -24,7 +24,7 @@ Neoantigen prediction model applying the graph neural network to molecular struc
   ```
 * Apply GraphMHC model:
   ```
-  python graphmhc.py --root iedb_i --train iedb_trainset.csv --test iedb_testest.csv --mhc mhc_sequence --peptide sequence
+  python graphmhc.py --root iedb_i --train iedb_trainset.csv --test iedb_testest.csv --mhc mhc_sequence --peptide sequence --binding binding
   ```
 
 ## Apply to IEDB class II data
@@ -41,5 +41,9 @@ Neoantigen prediction model applying the graph neural network to molecular struc
   ```
 * Apply GraphMHC model:
   ```
-  python graphmhc.py --root iedb_ii --train iedb_ii_train.csv --test iedb_ii_test.csv --mhc mhc --peptide peptide
+  python graphmhc.py --root iedb_ii --train iedb_ii_train.csv --test iedb_ii_test.csv --mhc mhc --peptide peptide --binding binding
   ```
+## Apply to the other binding dataset between amino acid sequences
+```
+python graphmhc.py --root <root directory> --train <trainset file> --test <testset file> --mhc <MHC field> --peptide <peptide field> --binding <binding affinity field>
+```
