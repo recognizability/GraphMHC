@@ -12,5 +12,8 @@ Neoantigen prediction model applying the graph neural network to molecular struc
 
 ## Running
 ```
+python preprocessing.py
+```
+```
 python graphmhc.py
 ```
