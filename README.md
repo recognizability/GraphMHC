@@ -12,11 +12,11 @@ Neoantigen prediction model applying the graph neural network to molecular struc
 
 ## Applies to IEDB class I data
 * Download data:
-```
-wget http://tools.iedb.org/static/main/binding_data_2013.zip
-unzip binding_data_2013.zip
-wget https://downloads.iedb.org/tools/mhci/3.1.2/IEDB_MHC_I-3.1.2.tar.gz
-tar xvzf IEDB_MHC_I-3.1.2.tar.gz
+  ```
+  wget http://tools.iedb.org/static/main/binding_data_2013.zip
+  unzip binding_data_2013.zip
+  wget https://downloads.iedb.org/tools/mhci/3.1.2/IEDB_MHC_I-3.1.2.tar.gz
+  tar xvzf IEDB_MHC_I-3.1.2.tar.gz
 ```
 * Preprocessing:
 ```
