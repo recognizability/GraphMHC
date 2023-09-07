@@ -10,7 +10,7 @@ Neoantigen prediction model applying the graph neural network to molecular struc
 * torch_geometric=2.1.0
 * sklearn=1.1.2
 
-## Applies to IEDB class I data
+## Apply to IEDB class I data
 * Download data:
   ```
   wget http://tools.iedb.org/static/main/binding_data_2013.zip
@@ -27,7 +27,7 @@ Neoantigen prediction model applying the graph neural network to molecular struc
   python graphmhc.py --root iedb_i --train iedb_trainset.csv --test iedb_testest.csv --mhc mhc_sequence --peptide sequence
   ```
 
-## Applies to IEDB class II data
+## Apply to IEDB class II data
 * Download data:
   ```
   wget http://tools.iedb.org/static/download/classII_binding_data_Nov_16_2009.tar.gz
