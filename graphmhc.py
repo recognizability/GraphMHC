@@ -16,6 +16,7 @@ parser.add_argument('--train', help='File of traning dataset')
 parser.add_argument('--test', help='File of test dataset')
 parser.add_argument('--mhc', help='MHC field')
 parser.add_argument('--peptide', help='Peptide field')
+parser.add_argument('--binding', help='Binding affinity field')
 args = parser.parse_args()
 
 seed = 42
@@ -61,7 +62,7 @@ class MoleculeDataset(Dataset): #Inherited from Dataset
             mol = Chem.AddHs(mol)
             x = self._get_node_features(mol)
             edge_attr, edge_index, edge_weight = self._get_edge_features(mol)
-            y = self._get_labels(sequences['binding']) #Column corresponding to binding information coded as 0 or 1
+            y = self._get_labels(sequences[args.binding]) #Column corresponding to binding information coded as 0 or 1
             data = Data(x=x, edge_attr=edge_attr, edge_index=edge_index, edge_weight=edge_weight, y=y)
             
             if self.test:
@@ -362,7 +363,7 @@ model = GraphMHC(hyperparameters=hyperparameters)
 model = model.to(device)
 
 trainset_raw = pd.read_csv(args.root + 'raw' + args.train)
-pos_weight = (trainset_raw['binding']==0).sum()/trainset_raw['binding'].sum()
+pos_weight = (trainset_raw[args.binding]==0).sum()/trainset_raw[args.binding].sum()
 pos_weight = torch.tensor([pos_weight], dtype=torch.float).to(device)
 
 optimizer = torch.optim.Adam(model.parameters())
