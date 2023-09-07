@@ -1,11 +1,22 @@
-import pandas as pd
+import os
 import numpy as np 
-import rdkit
+import pandas as pd
 from rdkit import Chem 
 import torch
-import torch_geometric
 from torch_geometric.data import Dataset, Data
 from torch_geometric.loader import DataLoader
+from tqdm import tqdm
+from argparse import ArgumentParser
+from datetime import datetime
+from sklearn import metrics
+
+parser = ArgumentParser()
+parser.add_argument('--root', help='Root directory')
+parser.add_argument('--train', help='File of traning dataset')
+parser.add_argument('--test', help='File of test dataset')
+parser.add_argument('--mhc', help='MHC field')
+parser.add_argument('--peptide', help='Peptide field')
+args = parser.parse_args()
 
 seed = 42
 np.random.seed(seed)
@@ -16,9 +27,6 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 if device == 'cuda:0':
     torch.cuda.manual_seed_all(seed)
     
-import os
-from tqdm import tqdm
-
 class MoleculeDataset(Dataset): #Inherited from Dataset
     def __init__(self, root, filename, test=False, transform=None, pre_transform=None):
         self.test = test
@@ -47,7 +55,7 @@ class MoleculeDataset(Dataset): #Inherited from Dataset
                 '.'.join( #. is non-bond
                     Chem.MolToSmiles(
                         Chem.MolFromSequence(sequences[sequence])
-                    ) for sequence in ['mhc_sequence', 'sequence'] #Corresponds to columns of MHC sequence and peptide sequence, respectively
+                    ) for sequence in [args.mhc, args.peptide] #Corresponds to columns of MHC sequence and peptide sequence, respectively
                 )
             )
             mol = Chem.AddHs(mol)
@@ -192,8 +200,8 @@ class MoleculeDataset(Dataset): #Inherited from Dataset
             data = torch.load(os.path.join(self.processed_dir, f'trainset_{idx}.pt'))   
         return data
 
-trainset = MoleculeDataset(root='iedb_sequences', filename='iedb_trainset.csv') #The file must be under the raw directory under the root directory
-testset = MoleculeDataset(root='iedb_sequences', filename='iedb_testset.csv', test=True)
+trainset = MoleculeDataset(root=args.root, filename=args.train) #The file must be under the raw directory under the root directory
+testset = MoleculeDataset(root=args.root, filename=args.test, test=True)
 
 batch_size = 64
 #batch_size = 128
@@ -206,8 +214,6 @@ batch_size = 64
 train_loader = DataLoader(trainset, batch_size=batch_size, shuffle=True, drop_last=False)
 test_loader = DataLoader(testset, batch_size=batch_size, shuffle=True, drop_last=False)
 
-
-import torch
 import torch.nn.functional as F #To use an activation function or dropout
 from torch.nn import MultiheadAttention, Conv1d, BatchNorm1d, MaxPool1d, Conv2d, BatchNorm2d, MaxPool2d, AvgPool1d
 from torch.nn import Linear, ModuleList #The reason for defining the module list is to enable learning
@@ -271,6 +277,7 @@ class GraphMHC(torch.nn.Module): #Inherited from nn.Module
         x = F.dropout(x, training=self.training, p=self.dropout_rate)
         
         x = gmp(x, batch_index)
+
         skip4 = x
         x = torch.reshape(x, (x.shape[0], self.heads, x.shape[1]//self.heads)) #put in as many channels as the number of heads
         
@@ -294,9 +301,6 @@ class GraphMHC(torch.nn.Module): #Inherited from nn.Module
         
         return x
 
-
-from sklearn import metrics
-
 def evaluate(labels, predictions, mode):
     roc_auc = metrics.roc_auc_score(labels, predictions)
     print(mode, 'ROC AUC:', roc_auc)
@@ -305,15 +309,14 @@ def evaluate(labels, predictions, mode):
     casted = np.array([1 if element >= optimal_threshold else 0 for element in predictions])
     print(mode, 'F1-score:', metrics.f1_score(labels, casted))
     print(mode, 'Precision:', metrics.precision_score(labels, casted))
-    print(mode, 'Recall:', metrics.recall_score(labels, casted))
+    print(mode, 'Recall (sensitivity):', metrics.recall_score(labels, casted))
     precision, recall, thresholds = metrics.precision_recall_curve(labels, predictions)
     pr_auc = metrics.auc(recall, precision)
     print(mode, 'PR AUC', pr_auc)
     print(mode, 'Accuracy:', metrics.accuracy_score(labels, casted))
+    print(mode, 'Balanced accuracy:', metrics.balanced_accuracy_score(labels, casted))
     print(mode, 'Optimal threshold:', optimal_threshold)
     return f'{roc_auc:.3f}'
-
-from datetime import datetime
 
 def train(epoch, model, train_loader, optimizer, criterion):
     model.train() #training mode
@@ -346,7 +349,6 @@ def test(epoch, model, test_loader, criterion):
     predictions = np.concatenate(predictions).ravel()
     return evaluate(labels, predictions, 'Test,')
 
-
 hyperparameters = {
     "in_channels": trainset[0].x.shape[1],
     "channels": 256,
@@ -359,7 +361,7 @@ hyperparameters = {
 model = GraphMHC(hyperparameters=hyperparameters)
 model = model.to(device)
 
-trainset_raw = pd.read_csv('iedb_sequences/raw/iedb_trainset.csv')
+trainset_raw = pd.read_csv(args.root + 'raw' + args.train)
 pos_weight = (trainset_raw['binding']==0).sum()/trainset_raw['binding'].sum()
 pos_weight = torch.tensor([pos_weight], dtype=torch.float).to(device)
 
