@@ -34,3 +34,7 @@ tar xvzf IEDB_MHC_II-3.1.6.tar.gz
 ```
 python preprocessing_ii.py
 ```
+
+```
+python graphmhc.py --root iedb_ii --train iedb_ii_trainset.csv --test iedb_ii_testest.csv --mhc mhc --peptide peptide
+```
