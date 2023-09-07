@@ -18,10 +18,10 @@ wget https://downloads.iedb.org/tools/mhci/3.1.2/IEDB_MHC_I-3.1.2.tar.gz
 tar xvzf IEDB_MHC_I-3.1.2.tar.gz
 ```
 ```
-python preprocessing_i.py --root iedb_i --train iedb_trainset.csv --test iedb_testest.csv --mhc mhc_sequence --peptide sequence
+python preprocessing_i.py
 ```
 ```
-python graphmhc.py
+python graphmhc.py --root iedb_i --train iedb_trainset.csv --test iedb_testest.csv --mhc mhc_sequence --peptide sequence
 ```
 
 ## IEDB II
