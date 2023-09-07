@@ -29,4 +29,5 @@ tar xvzf classII_binding_data_Nov_16_2009.tar.gz
 ```
 ```
 wget https://downloads.iedb.org/tools/mhcii/3.1.6/IEDB_MHC_II-3.1.6.tar.gz
+tar xvzf IEDB_MHC_II-3.1.6.tar.gz
 ```
