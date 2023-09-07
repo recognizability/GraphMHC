@@ -1,6 +1,5 @@
 from glob import glob
 import pandas as pd
-import seaborn as sns
 import os
 
 path = './iedb_ii/raw/'
