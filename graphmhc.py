@@ -341,7 +341,7 @@ def test(epoch, model, test_loader, criterion):
     model.eval() #inference mode
     labels = []
     predictions = []
-    for batch in test_loader:  
+    for batch in tqdm(test_loader):
         batch.to(device) 
         labels.append(batch.y.float().cpu().detach().numpy())
         prediction = model(batch.x.float(), batch.edge_attr.float(), batch.edge_index, batch.edge_weight, batch.batch,)
