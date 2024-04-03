@@ -48,7 +48,7 @@ GraphMHC is a neoantigen prediction model that applyies graph neural networks to
 python graphmhc.py --root <root directory> --train <trainset file> --test <testset file> --mhc <MHC field> --peptide <peptide field> --binding <binding affinity field>
 ```
 
-# Citation
+## Citation
 ```
 @article{jeong2024graphmhc,
   title={GraphMHC: Neoantigen prediction model applying the graph neural network to molecular structure},
