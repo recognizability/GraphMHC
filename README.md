@@ -49,6 +49,7 @@ python graphmhc.py --root <root directory> --train <trainset file> --test <tests
 ```
 
 ## Citation
+https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0291223
 ```
 @article{jeong2024graphmhc,
   title={GraphMHC: Neoantigen prediction model applying the graph neural network to molecular structure},
